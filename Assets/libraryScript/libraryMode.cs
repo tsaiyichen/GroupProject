@@ -9,16 +9,23 @@ public class libraryMode : MonoBehaviour
     [SerializeField] Text name;
     [SerializeField] Text description;
     [SerializeField] Image image;
+    [SerializeField] Button cancelBtn;
     [SerializeField] GameObject libraryPanel;
+    [SerializeField] Button linkButton;
 
     string serverURL = "http://140.136.155.122/Unity/getLibraryData.php";
     // Start is called before the first frame update
 
     public void closePanel()
     {
+        linkButton.gameObject.SetActive(false);
         libraryPanel.SetActive(false);
         movingScript.cameraMove = true;
         touchScript.canTouch = true;
+    }
+    public void openLink(string URL)
+    {
+        Application.OpenURL(URL);
     }
     public IEnumerator getLibraryData(string name)
     {
@@ -51,9 +58,14 @@ public class libraryMode : MonoBehaviour
     void openLibraryPanel(Library data)
     {
         name.text = data.LIBRARYNAME;
-        description.text = data.LIBRARYDESCRIPTION;
         string imageName = data.LIBRARYID;
         ChangeTheImage(imageName, image);
+        cancelBtn.onClick.RemoveAllListeners();
+        cancelBtn.onClick.AddListener(() => closePanel());
+        linkButton.gameObject.SetActive(true);
+        description.gameObject.SetActive(false);
+        linkButton.onClick.RemoveAllListeners();
+        linkButton.onClick.AddListener(() => openLink(data.LIBRARYDESCRIPTION));
         libraryPanel.SetActive(true);
     }
 
