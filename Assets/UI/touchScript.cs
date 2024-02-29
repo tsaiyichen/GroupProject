@@ -9,6 +9,7 @@ public class touchScript : MonoBehaviour
     public static bool canTouch = true;
     public UIScript UIScript;
     public Dropdown mode;
+    public libraryMode libraryMode;
     // Start is called before the first frame update
     void Awake()
     {
@@ -43,7 +44,11 @@ public class touchScript : MonoBehaviour
                     canTouch = false;
                     string target = gameObject.name;
                     Debug.Log("hit¡I");
-                    if(mode.value == 5)
+                    if(mode.value == 4){
+                        Debug.Log(target);
+                        StartCoroutine(libraryMode.getLibraryData(target));
+                    }
+                    else if(mode.value == 5)
                     {
                         Debug.Log(target);
                         StartCoroutine(facilityMode.getfacilityData(target));

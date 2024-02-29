@@ -1,64 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class facilityMode : MonoBehaviour
+public class libraryMode : MonoBehaviour
 {
     [SerializeField] Text name;
     [SerializeField] Text description;
     [SerializeField] Image image;
-    [SerializeField] Button cancelButton;
-    [SerializeField] GameObject facilityPanel;
-    
-    string serverURL = "http://140.136.155.122/Unity/getFacilityData.php";
-    
+    [SerializeField] GameObject libraryPanel;
+
+    string serverURL = "http://140.136.155.122/Unity/getLibraryData.php";
+    // Start is called before the first frame update
+
     public void closePanel()
     {
-        facilityPanel.SetActive(false);
+        libraryPanel.SetActive(false);
         movingScript.cameraMove = true;
         touchScript.canTouch = true;
     }
-    public IEnumerator getfacilityData(string name)
+    public IEnumerator getLibraryData(string name)
     {
         WWWForm form = new WWWForm();
-        form.AddField("facilityName", name);
+        form.AddField("libraryID", name);
 
         UnityWebRequest www = UnityWebRequest.Post(serverURL, form);
+
         yield return www.SendWebRequest();
 
         if (www.result == UnityWebRequest.Result.Success)
         {
             string facilityResponse = www.downloadHandler.text;
-            Debug.Log("facility: " + facilityResponse);
-            Facility data = JsonUtility.FromJson<Facility>(facilityResponse);
-            openFacilityPanel(data);
+            Debug.Log("library: " + facilityResponse);
+            Library data = JsonUtility.FromJson<Library>(facilityResponse);
+            openLibraryPanel(data);
         }
         else
         {
             Debug.Log("facilityError");
         }
     }
-
-    public class Facility
+    public class Library
     {
-        public string FACILITYID;
-        public string FACILITYNAME;
-        public string FACILITYTYPE;
-        public string FACILITYDESCRIPTION;
+        public string LIBRARYID;
+        public string LIBRARYNAME;
+        public string LIBRARYDESCRIPTION;
     }
 
-    public void openFacilityPanel(Facility data)
+    void openLibraryPanel(Library data)
     {
-        name.text = data.FACILITYNAME;
-        description.text = data.FACILITYDESCRIPTION;
-        string imageName = data.FACILITYTYPE + data.FACILITYID;
+        name.text = data.LIBRARYNAME;
+        description.text = data.LIBRARYDESCRIPTION;
+        string imageName = data.LIBRARYID;
         ChangeTheImage(imageName, image);
-        cancelButton.onClick.RemoveAllListeners();
-        cancelButton.onClick.AddListener(() => closePanel());
-        facilityPanel.SetActive(true);
+        libraryPanel.SetActive(true);
     }
 
     public void ChangeTheImage(string name, Image image)
@@ -77,5 +73,4 @@ public class facilityMode : MonoBehaviour
             Debug.LogError("Image texture is not found!");
         }
     }
-
 }

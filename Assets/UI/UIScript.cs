@@ -13,10 +13,12 @@ public class UIScript : MonoBehaviour
     [SerializeField] GameObject SF;
     [SerializeField] GameObject MD;
     [SerializeField] GameObject basketballCourt01;
+    [SerializeField] GameObject JS;
     GameObject[] buildings;
     public GameObject facilityButtonList;
     public facilityMode facilityMode;
     public UIScript UIscript;
+    public libraryMode libraryMode;
 
     public void OnModeChange()
     {
@@ -35,6 +37,12 @@ public class UIScript : MonoBehaviour
             case 3:
                 break;
             case 4:
+                Debug.Log(mode.value);
+                touchScript instanceLib = JS.AddComponent<touchScript>();
+                instanceLib.mode = mode;
+                instanceLib.libraryMode = libraryMode;
+                instanceLib.UIScript = UIscript;
+
                 break;
             case 5:
                 Debug.Log(mode.value);
