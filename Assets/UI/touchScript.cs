@@ -41,7 +41,7 @@ public class touchScript : MonoBehaviour
                     Debug.Log("hit¡I");
                     if(mode.value == 1)
                     {
-                        Debug.Log("hit");
+                        Debug.Log(target);
                         StartCoroutine(buildingMode.getBuildingData(target));
                     }
                     else if(mode.value == 4){

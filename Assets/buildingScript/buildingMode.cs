@@ -9,13 +9,14 @@ using UnityEngine.UI;
 
 public class buildingMode : MonoBehaviour
 {
+    public UIScript UIScript;
     Dictionary<string, int> buildingFloor = new Dictionary<string, int>();
     [SerializeField] GameObject introPanel;
     [SerializeField] Text introBuildingName;
     [SerializeField] Image buildingImage;
     [SerializeField] Button changeToIntro_intro;
     [SerializeField] Button changeToFloor_intro;
-    [SerializeField] Button cancelBtn;
+    [SerializeField] Button introCancelBtn;
     //[SerializeField] Text buildingDesccription;
 
     int floorCurrentPage;
@@ -26,10 +27,12 @@ public class buildingMode : MonoBehaviour
     [SerializeField] Button changeToFloor_floor;
     [SerializeField] Button previousBtn_floor;
     [SerializeField] Button nextBtn_floor;
+    [SerializeField] Button floorCancelBtn;
     [SerializeField] Button floor0, floor1, floor2, floor3, floor4;
     Button[] floorBtns;
     string currentBuilding;
     string currentBuildingName;
+    int totalFloor;
 
     [SerializeField] GameObject roomPanel;
     [SerializeField] Text roomBuildingName;
@@ -42,12 +45,14 @@ public class buildingMode : MonoBehaviour
     [SerializeField] Button previousBtn_room;
     [SerializeField] Button nextBtn_room;
     [SerializeField] Button BackToFloor;
+    [SerializeField] Button roomCancelBtn;
 
     [SerializeField] GameObject descriptionPanel;
     [SerializeField] Text descriptionName;
     [SerializeField] Image descriptionImage;
     [SerializeField] Text descriptionText;
     [SerializeField] Button linkButton;
+    [SerializeField] Button descriptionCancelBtn;
 
     string getBuildingURL = "http://140.136.155.122/Unity/getBuildingData.php";
     string getRoomURL = "http://140.136.155.122/Unity/getRoomData.php";
@@ -62,6 +67,7 @@ public class buildingMode : MonoBehaviour
     }
     public void Awake()
     {
+        UIScript = GetComponent<UIScript>();
         initializeDictionary();
         floorBtns = new Button[] { floor0, floor1, floor2, floor3, floor4 };
         roomBtns = new Button[] { room0, room1, room2, room3, room4 };
@@ -117,21 +123,26 @@ public class buildingMode : MonoBehaviour
         introBuildingName.text = data.BUILDINGID + "  " + data.BUILDINGNAME;
         string imageName = data.BUILDINGID;
         ChangeTheImage(imageName, buildingImage);
-        cancelBtn.onClick.RemoveAllListeners();
-        cancelBtn.onClick.AddListener(() => closePanel());
+        introCancelBtn.onClick.RemoveAllListeners();
+        introCancelBtn.onClick.AddListener(() => closePanel());
         introPanel.SetActive(true);
     }
 
     void setInitialFloorPanel(Building data)
     {
-        int totalFloor = buildingFloor[data.BUILDINGID];
+        totalFloor = buildingFloor[data.BUILDINGID];
         floorBuildingName.text = data.BUILDINGID + " " + data.BUILDINGNAME;
         floorCurrentPage = 1;
         floorTotalpage = (int)(Math.Ceiling((double)(totalFloor) / floorBtns.Length));
-        floorButtonSetting(floorCurrentPage, totalFloor);
+        Debug.Log(floorTotalpage + " " + floorCurrentPage);
+        floorCancelBtn.onClick.RemoveAllListeners();
+        floorCancelBtn.onClick.AddListener(() => closePanel());
+        floorButtonSetting(floorCurrentPage);
     }
-    void floorButtonSetting(int currentPage, int totalFloor)
+    void floorButtonSetting(int currentPage)
     {
+        previousBtn_floor.gameObject.SetActive(true);
+        nextBtn_floor.gameObject.SetActive(true);
         if (currentPage == 1)
         {
             previousBtn_floor.gameObject.SetActive(false);
@@ -145,15 +156,21 @@ public class buildingMode : MonoBehaviour
         {
             if (i >= totalFloor)
             {
-                floorBtns[i].gameObject.SetActive(false);
+                floorBtns[i % floorBtns.Length].gameObject.SetActive(false);
             }
             else
-            {
-                ChangeButtonText(floorBtns[i % floorBtns.Length], i + "加");
-                floorBtns[i].onClick.RemoveAllListeners();
-                floorBtns[i].onClick.AddListener(() => StartCoroutine(getRoomData(i, currentBuilding)));
-                floorBtns[i].gameObject.SetActive(true);
+            {                
+                ChangeButtonText(floorBtns[i % floorBtns.Length], (i+1) + "加");
+                floorBtns[i % floorBtns.Length].onClick.RemoveAllListeners();
+                Debug.Log(i + 1);
+                int current = i + 1;
+                floorBtns[i % floorBtns.Length].onClick.AddListener(() => StartCoroutine(getRoomData(current, currentBuilding)));
+                floorBtns[i % floorBtns.Length].gameObject.SetActive(true);
             }
+            previousBtn_floor.onClick.RemoveAllListeners();
+            nextBtn_floor.onClick.RemoveAllListeners();
+            previousBtn_floor.onClick.AddListener(() => floorButtonSetting(currentPage - 1));
+            nextBtn_floor.onClick.AddListener(() => floorButtonSetting(currentPage + 1));
         }
     }
     public void ChangeTheImage(string name, Image image)
@@ -186,6 +203,7 @@ public class buildingMode : MonoBehaviour
     }
     public IEnumerator getRoomData(int floor, string building)
     {
+        Debug.Log(floor + " " + building);
         roomList.Clear();
         WWWForm form = new WWWForm();
         form.AddField("floor", floor);
@@ -224,15 +242,20 @@ public class buildingMode : MonoBehaviour
     }
     public void roomPanelOn(int floor)
     {
-        roomPanel.SetActive(true);
         roomBuildingName.text = currentBuildingName + "加";
         roomFloor.text = floor + "加  冈灿戈癟";
         roomCurrentPage = 1;
         roomTotalPage = (int)(Math.Ceiling((double)(roomList.Count) / roomBtns.Length));
-        roomButtonSetting(roomCurrentPage, roomList.Count);
+        roomButtonSetting(roomCurrentPage);
+        roomCancelBtn.onClick.RemoveAllListeners();
+        roomCancelBtn.onClick.AddListener(() => closePanel());
+        roomPanel.SetActive(true);
     }
-    void roomButtonSetting(int currentPage, int totalRoom)
+    void roomButtonSetting(int currentPage)
     {
+        previousBtn_room.gameObject.SetActive(true);
+        nextBtn_room.gameObject.SetActive(true);
+        Debug.Log("current: " + currentPage + "total: " + roomTotalPage);
         if (currentPage == 1)
         {
             previousBtn_room.gameObject.SetActive(false);
@@ -244,18 +267,22 @@ public class buildingMode : MonoBehaviour
         int start = roomBtns.Length * (currentPage - 1);
         for (int i = start; i < start + 5; i++)
         {
-            if (i >= totalRoom)
+            if (i >= roomList.Count)
             {
-                floorBtns[i].gameObject.SetActive(false);
+                roomBtns[i % roomBtns.Length].gameObject.SetActive(false);
             }
             else
             {
                 Room data = JsonUtility.FromJson<Room>(roomList[i]);
                 ChangeButtonText(roomBtns[i % roomBtns.Length], data.BUILDINGID + data.ROOMID);
-                roomBtns[i].onClick.RemoveAllListeners();
-                roomBtns[i].onClick.AddListener(() => openDescriptionPanel(data));
-                roomBtns[i].gameObject.SetActive(true);
+                roomBtns[i % roomBtns.Length].onClick.RemoveAllListeners();
+                roomBtns[i % roomBtns.Length].onClick.AddListener(() => openDescriptionPanel(data));
+                roomBtns[i % roomBtns.Length].gameObject.SetActive(true);
             }
+            previousBtn_room.onClick.RemoveAllListeners();
+            nextBtn_room.onClick.RemoveAllListeners();
+            previousBtn_room.onClick.AddListener(() => roomButtonSetting(currentPage - 1));
+            nextBtn_room.onClick.AddListener(() => roomButtonSetting(currentPage + 1));
         }
     }
     void openDescriptionPanel(Room data)
@@ -264,6 +291,8 @@ public class buildingMode : MonoBehaviour
         descriptionName.text = data.BUILDINGID + data.ROOMID;
         ChangeTheImage(data.BUILDINGID + data.ROOMID, descriptionImage);
         descriptionText.text = data.ROOMNAME;
+        descriptionCancelBtn.onClick.RemoveAllListeners();
+        descriptionCancelBtn.onClick.AddListener(() => closeDescriptionPanel());
         descriptionPanel.SetActive(true);
 
     }
@@ -292,5 +321,6 @@ public class buildingMode : MonoBehaviour
     {
         descriptionPanel.SetActive(false);
         roomPanel.SetActive(true);
+
     }
 }
