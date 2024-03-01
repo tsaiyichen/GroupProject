@@ -57,7 +57,7 @@ public class libraryMode : MonoBehaviour
 
     void openLibraryPanel(Library data)
     {
-        name.text = data.LIBRARYNAME;
+        name.text = data.LIBRARYID + " " + data.LIBRARYNAME;
         string imageName = data.LIBRARYID;
         ChangeTheImage(imageName, image);
         cancelBtn.onClick.RemoveAllListeners();

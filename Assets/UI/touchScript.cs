@@ -10,12 +10,14 @@ public class touchScript : MonoBehaviour
     public UIScript UIScript;
     public Dropdown mode;
     public libraryMode libraryMode;
+    public buildingMode buildingMode;
     // Start is called before the first frame update
     void Awake()
     {
         UIScript = GetComponent<UIScript>();
         facilityMode = GetComponent<facilityMode>();
         libraryMode = GetComponent<libraryMode>();
+        buildingMode = GetComponent<buildingMode>();
         canTouch = true;
     }
 
@@ -37,7 +39,12 @@ public class touchScript : MonoBehaviour
                     canTouch = false;
                     string target = gameObject.name;
                     Debug.Log("hit¡I");
-                    if(mode.value == 4){
+                    if(mode.value == 1)
+                    {
+                        Debug.Log("hit");
+                        StartCoroutine(buildingMode.getBuildingData(target));
+                    }
+                    else if(mode.value == 4){
                         Debug.Log(target);
                         StartCoroutine(libraryMode.getLibraryData(target));
                     }

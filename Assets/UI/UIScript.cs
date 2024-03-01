@@ -23,6 +23,7 @@ public class UIScript : MonoBehaviour
     public facilityMode facilityMode;
     public UIScript UIscript;
     public libraryMode libraryMode;
+    public buildingMode buildingMode;
     int previousMode;
 
     public void OnModeChange()
@@ -33,7 +34,9 @@ public class UIScript : MonoBehaviour
                 break;
             case 1:
                 Debug.Log(mode.value);
-
+                deleteTouchScript(previousMode);
+                addTouchScript(mode.value);
+                previousMode = mode.value;
                 break;
             case 2:
                 break;
@@ -75,6 +78,15 @@ public class UIScript : MonoBehaviour
     {
         switch (index)
         {
+            case 1:
+                foreach(GameObject obj in buildings)
+                {
+                    if (obj.GetComponent<touchScript>() != null)
+                    {
+                        Destroy(obj.GetComponent<touchScript>());
+                    }
+                }
+                break;
             case 4:
                 foreach(GameObject obj in libraries)
                 {
@@ -99,6 +111,15 @@ public class UIScript : MonoBehaviour
     {
         switch (index)
         {
+            case 1:
+                foreach (GameObject obj in buildings)
+                {
+                    touchScript instanceBuilding = obj.AddComponent<touchScript>();
+                    instanceBuilding.mode = mode;
+                    instanceBuilding.buildingMode = buildingMode;
+                    instanceBuilding.UIScript = UIscript;
+                }
+                break;
             case 4:
                 foreach (GameObject obj in libraries)
                 {
