@@ -55,6 +55,7 @@ public class facilityMode : MonoBehaviour
         name.text = data.FACILITYNAME;
         description.text = data.FACILITYDESCRIPTION;
         string imageName = data.FACILITYTYPE + data.FACILITYID;
+        description.gameObject.SetActive(true);
         ChangeTheImage(imageName, image);
         cancelButton.onClick.RemoveAllListeners();
         cancelButton.onClick.AddListener(() => closePanel());

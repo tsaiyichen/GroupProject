@@ -38,14 +38,14 @@ public class libraryMode : MonoBehaviour
 
         if (www.result == UnityWebRequest.Result.Success)
         {
-            string facilityResponse = www.downloadHandler.text;
-            Debug.Log("library: " + facilityResponse);
-            Library data = JsonUtility.FromJson<Library>(facilityResponse);
+            string libraryResponse = www.downloadHandler.text;
+            Debug.Log("library: " + libraryResponse);
+            Library data = JsonUtility.FromJson<Library>(libraryResponse);
             openLibraryPanel(data);
         }
         else
         {
-            Debug.Log("facilityError");
+            Debug.Log("libraryError");
         }
     }
     public class Library

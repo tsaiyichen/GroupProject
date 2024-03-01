@@ -15,10 +15,15 @@ public class UIScript : MonoBehaviour
     [SerializeField] GameObject basketballCourt01;
     [SerializeField] GameObject JS;
     GameObject[] buildings;
+    GameObject[] libraries;
+    GameObject[] facilities;
+    string currentFacility;
+    public GameObject facilityBtnList;
     public GameObject facilityButtonList;
     public facilityMode facilityMode;
     public UIScript UIscript;
     public libraryMode libraryMode;
+    int previousMode;
 
     public void OnModeChange()
     {
@@ -27,10 +32,8 @@ public class UIScript : MonoBehaviour
             case 0:
                 break;
             case 1:
-                foreach (GameObject building in buildings)
-                {
-                    building.AddComponent<touchScript>();
-                }
+                Debug.Log(mode.value);
+
                 break;
             case 2:
                 break;
@@ -38,18 +41,19 @@ public class UIScript : MonoBehaviour
                 break;
             case 4:
                 Debug.Log(mode.value);
-                touchScript instanceLib = JS.AddComponent<touchScript>();
-                instanceLib.mode = mode;
-                instanceLib.libraryMode = libraryMode;
-                instanceLib.UIScript = UIscript;
-
+                deleteTouchScript(previousMode);
+                addTouchScript(mode.value);
+                previousMode = mode.value;
                 break;
             case 5:
                 Debug.Log(mode.value);
+                deleteTouchScript(previousMode);
+                addTouchScript(mode.value);
                 touchScript instanceTouch = basketballCourt01.AddComponent<touchScript>();
                 instanceTouch.mode = mode;
                 instanceTouch.facilityMode = facilityMode;
                 instanceTouch.UIScript = UIscript;
+                previousMode = mode.value;
                 break;
             case 6:
                 break;           
@@ -59,15 +63,60 @@ public class UIScript : MonoBehaviour
     private void Awake()
     {
         buildings = new GameObject[] { LM, SL, SF, MD };
+        libraries = new GameObject[] { JS };
     }
     void Start()
     {
         mode.value = 0;
+        previousMode = 0;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void deleteTouchScript(int index)
     {
-
+        switch (index)
+        {
+            case 4:
+                foreach(GameObject obj in libraries)
+                {
+                    if (obj.GetComponent<touchScript>() != null)
+                    {
+                        Destroy(obj.GetComponent<touchScript>());
+                    }
+                }
+                break;
+            case 5:
+                foreach (GameObject obj in facilities)
+                {
+                    if (obj.GetComponent<touchScript>() != null)
+                    {
+                        Destroy(obj.GetComponent<touchScript>());
+                    }
+                }
+                break;
+        }
+    }
+    public void addTouchScript(int index)
+    {
+        switch (index)
+        {
+            case 4:
+                foreach (GameObject obj in libraries)
+                {
+                    touchScript instanceLib = obj.AddComponent<touchScript>();
+                    instanceLib.mode = mode;
+                    instanceLib.libraryMode = libraryMode;
+                    instanceLib.UIScript = UIscript;
+                }
+                break;
+            case 5:
+                foreach (GameObject obj in facilities)
+                {
+                    touchScript instanceTouch = obj.AddComponent<touchScript>();
+                    instanceTouch.mode = mode;
+                    instanceTouch.facilityMode = facilityMode;
+                    instanceTouch.UIScript = UIscript;
+                }
+                break;
+        }
     }
 }

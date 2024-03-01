@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class touchScript : MonoBehaviour
 {
     public facilityMode facilityMode;
-    public static bool canTouch = true;
+    public static bool canTouch;
     public UIScript UIScript;
     public Dropdown mode;
     public libraryMode libraryMode;
@@ -14,16 +14,9 @@ public class touchScript : MonoBehaviour
     void Awake()
     {
         UIScript = GetComponent<UIScript>();
-        if (UIScript == null)
-        {
-            Debug.LogError("UIScript component not found on the GameObject.");
-        }
-
         facilityMode = GetComponent<facilityMode>();
-        if (facilityMode == null)
-        {
-            Debug.LogError("facilityMode component not found on the GameObject.");
-        }
+        libraryMode = GetComponent<libraryMode>();
+        canTouch = true;
     }
 
 
