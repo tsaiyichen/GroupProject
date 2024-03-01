@@ -24,6 +24,7 @@ public class UIScript : MonoBehaviour
     public UIScript UIscript;
     public libraryMode libraryMode;
     public buildingMode buildingMode;
+    public Camera mainCamera;
     int previousMode;
 
     public void OnModeChange()
@@ -34,6 +35,7 @@ public class UIScript : MonoBehaviour
                 break;
             case 1:
                 Debug.Log(mode.value);
+                mainCamera.orthographicSize = 9;
                 deleteTouchScript(previousMode);
                 addTouchScript(mode.value);
                 previousMode = mode.value;
