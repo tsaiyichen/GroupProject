@@ -21,7 +21,7 @@ public class dormitoryMode : MonoBehaviour
     }
     public IEnumerator getDormitoryData(string dormitory_name)
     {
-        string url = "http://140.136.155.122/Unity/detDormitoryData.php";
+        string url = "http://140.136.155.122/Unity/getDormitoryData.php";
 
         WWWForm form = new WWWForm();
         form.AddField("dormitory", dormitory_name);

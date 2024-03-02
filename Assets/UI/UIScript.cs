@@ -19,12 +19,12 @@ public class UIScript : MonoBehaviour
     public GameObject dormitory1;//宜真宜善
     public GameObject dormitory2;//宜美
     public GameObject dormitory3;//宜聖
-    public GameObject dormitory4;//立言
-    public GameObject dormitory5;//文德文舍
-    public GameObject dormitory6;//仁愛
-    public GameObject dormitory7;//信義和平
-    public GameObject dormitory8;//格物
-    public GameObject dormitory9;//學人旅店
+    //public GameObject dormitory4;//立言
+    //public GameObject dormitory5;//文德文舍
+    //public GameObject dormitory6;//仁愛
+    //public GameObject dormitory7;//信義和平
+    //public GameObject dormitory8;//格物
+    //public GameObject dormitory9;//學人旅店
     GameObject[] libraries;
     [SerializeField] GameObject JS;
     GameObject[] facilities;
@@ -85,7 +85,7 @@ public class UIScript : MonoBehaviour
     {
         buildings = new GameObject[] { LM, SL, SF, MD, LA_LB_LC_AV_FL_FG };
         libraries = new GameObject[] { JS };
-        dormitories = new GameObject[] { dormitory1, dormitory2, dormitory3, dormitory4, dormitory5, dormitory6, dormitory7, dormitory8, dormitory9 };
+        dormitories = new GameObject[] { dormitory1, dormitory2, dormitory3, /*dormitory4, dormitory5, dormitory6, dormitory7, dormitory8, dormitory9*/ };
     }
     void Start()
     {
@@ -149,7 +149,7 @@ public class UIScript : MonoBehaviour
                 }
                 break;
             case 3:
-                foreach(GameObject obj in libraries)
+                foreach(GameObject obj in dormitories)
                 {
                     touchScript dormitoryInstance = obj.AddComponent<touchScript>();
                     dormitoryInstance.mode = mode;
