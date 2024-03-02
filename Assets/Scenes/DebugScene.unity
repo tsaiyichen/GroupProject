@@ -1437,12 +1437,6 @@ MonoBehaviour:
   dormitory1: {fileID: 510844339}
   dormitory2: {fileID: 1103108523}
   dormitory3: {fileID: 1111035545}
-  dormitory4: {fileID: 0}
-  dormitory5: {fileID: 0}
-  dormitory6: {fileID: 0}
-  dormitory7: {fileID: 0}
-  dormitory8: {fileID: 0}
-  dormitory9: {fileID: 0}
   JS: {fileID: 2043016722}
   facilityBtnList: {fileID: 0}
   facilityButtonList: {fileID: 0}
@@ -1866,19 +1860,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 291523341}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 386844836}
-        m_TargetAssemblyTypeName: buildingMode, Assembly-CSharp
-        m_MethodName: changeToIntroPanel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &291523341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5672,19 +5654,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1127811583}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 386844836}
-        m_TargetAssemblyTypeName: buildingMode, Assembly-CSharp
-        m_MethodName: changeToFloorPanel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1138352016
 GameObject:
   m_ObjectHideFlags: 0

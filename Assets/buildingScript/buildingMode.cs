@@ -10,7 +10,6 @@ using UnityEngine.UI;
 
 public class buildingMode : MonoBehaviour
 {
-    public UIScript UIScript;
     Dictionary<string, int> buildingFloor = new Dictionary<string, int>();
     string [] hasB1;
     [SerializeField] GameObject introPanel;
@@ -70,7 +69,6 @@ public class buildingMode : MonoBehaviour
     }
     public void Awake()
     {
-        UIScript = GetComponent<UIScript>();
         initializeDictionary();
         hasB1 = new string[] { "LM", "ES" };
         floorBtns = new Button[] { floor0, floor1, floor2, floor3, floor4 };
@@ -127,6 +125,8 @@ public class buildingMode : MonoBehaviour
         introBuildingName.text = data.BUILDINGID + "  " + data.BUILDINGNAME;
         string imageName = data.BUILDINGID;
         ChangeTheImage(imageName, buildingImage);
+        changeToIntro_intro.onClick.RemoveAllListeners();
+        changeToFloor_intro.onClick.AddListener(() => changeToFloorPanel());
         introCancelBtn.onClick.RemoveAllListeners();
         introCancelBtn.onClick.AddListener(() => closePanel());
         introPanel.SetActive(true);
@@ -318,7 +318,6 @@ public class buildingMode : MonoBehaviour
         descriptionCancelBtn.onClick.RemoveAllListeners();
         descriptionCancelBtn.onClick.AddListener(() => closeDescriptionPanel());
         descriptionPanel.SetActive(true);
-
     }
 
 

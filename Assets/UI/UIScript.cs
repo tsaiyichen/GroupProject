@@ -15,16 +15,21 @@ public class UIScript : MonoBehaviour
     [SerializeField] GameObject MD;
     [SerializeField] GameObject basketballCourt01;
     [SerializeField] GameObject LA_LB_LC_AV_FL_FG;
+    GameObject[] restaurants;
+    [SerializeField] GameObject FY;
+    [SerializeField] GameObject SY;
+    [SerializeField] GameObject LY;
+    [SerializeField] GameObject CY;
     GameObject[] dormitories;
     public GameObject dormitory1;//宜真宜善
     public GameObject dormitory2;//宜美
     public GameObject dormitory3;//宜聖
-    //public GameObject dormitory4;//立言
-    //public GameObject dormitory5;//文德文舍
-    //public GameObject dormitory6;//仁愛
-    //public GameObject dormitory7;//信義和平
-    //public GameObject dormitory8;//格物
-    //public GameObject dormitory9;//學人旅店
+    public GameObject dormitory4;//立言
+    public GameObject dormitory5;//文德文舍
+    public GameObject dormitory6;//學人旅店
+    public GameObject dormitory7;//信義和平
+    public GameObject dormitory8;//格物
+    public GameObject dormitory9;//仁愛
     GameObject[] libraries;
     [SerializeField] GameObject JS;
     GameObject[] facilities;
@@ -36,6 +41,7 @@ public class UIScript : MonoBehaviour
     public libraryMode libraryMode;
     public buildingMode buildingMode;
     public dormitoryMode dormitoryMode;
+    public restMode restMode;
     public Camera mainCamera;
     int previousMode;
 
@@ -53,20 +59,28 @@ public class UIScript : MonoBehaviour
                 previousMode = mode.value;
                 break;
             case 2:
+                Debug.Log(mode.value);
+                mainCamera.orthographicSize = 9;
+                deleteTouchScript(previousMode);
+                addTouchScript(mode.value);
+                previousMode = mode.value;
                 break;
             case 3:
                 Debug.Log(mode.value);
+                mainCamera.orthographicSize = 9;
                 deleteTouchScript(previousMode);
                 addTouchScript(mode.value);
                 previousMode = mode.value;
                 break;
             case 4:
                 Debug.Log(mode.value);
+                mainCamera.orthographicSize = 9;
                 deleteTouchScript(previousMode);
                 addTouchScript(mode.value);
                 previousMode = mode.value;
                 break;
             case 5:
+                mainCamera.orthographicSize = 9;
                 Debug.Log(mode.value);
                 deleteTouchScript(previousMode);
                 addTouchScript(mode.value);
@@ -85,7 +99,8 @@ public class UIScript : MonoBehaviour
     {
         buildings = new GameObject[] { LM, SL, SF, MD, LA_LB_LC_AV_FL_FG };
         libraries = new GameObject[] { JS };
-        dormitories = new GameObject[] { dormitory1, dormitory2, dormitory3, /*dormitory4, dormitory5, dormitory6, dormitory7, dormitory8, dormitory9*/ };
+        dormitories = new GameObject[] { dormitory1, dormitory2, dormitory3, dormitory4, dormitory5, dormitory6, dormitory7, dormitory8, dormitory9 };
+        restaurants = new GameObject[] { FY, CY, LY, CY };
     }
     void Start()
     {
@@ -99,6 +114,15 @@ public class UIScript : MonoBehaviour
         {
             case 1:
                 foreach(GameObject obj in buildings)
+                {
+                    if (obj.GetComponent<touchScript>() != null)
+                    {
+                        Destroy(obj.GetComponent<touchScript>());
+                    }
+                }
+                break;
+            case 2:
+                foreach (GameObject obj in restaurants)
                 {
                     if (obj.GetComponent<touchScript>() != null)
                     {
@@ -146,6 +170,15 @@ public class UIScript : MonoBehaviour
                     instanceBuilding.mode = mode;
                     instanceBuilding.buildingMode = buildingMode;
                     instanceBuilding.UIScript = UIscript;
+                }
+                break;
+            case 2:
+                foreach (GameObject obj in restaurants)
+                {
+                    touchScript instanceRest = obj.AddComponent<touchScript>();
+                    instanceRest.mode = mode;
+                    instanceRest.restMode = restMode;
+                    instanceRest.UIScript = UIscript;
                 }
                 break;
             case 3:
