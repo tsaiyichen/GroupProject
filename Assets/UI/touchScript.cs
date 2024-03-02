@@ -11,6 +11,7 @@ public class touchScript : MonoBehaviour
     public Dropdown mode;
     public libraryMode libraryMode;
     public buildingMode buildingMode;
+    public dormitoryMode dormitoryMode;
     // Start is called before the first frame update
     void Awake()
     {
@@ -18,6 +19,7 @@ public class touchScript : MonoBehaviour
         facilityMode = GetComponent<facilityMode>();
         libraryMode = GetComponent<libraryMode>();
         buildingMode = GetComponent<buildingMode>();
+        dormitoryMode = GetComponent<dormitoryMode>();
         canTouch = true;
     }
 
@@ -43,6 +45,10 @@ public class touchScript : MonoBehaviour
                     {
                         Debug.Log(target);
                         StartCoroutine(buildingMode.getBuildingData(target));
+                    }
+                    else if(mode.value == 3){
+                        Debug.Log(target);
+                        StartCoroutine(dormitoryMode.getDormitoryData(target));
                     }
                     else if(mode.value == 4){
                         Debug.Log(target);

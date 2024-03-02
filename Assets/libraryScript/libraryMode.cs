@@ -72,7 +72,7 @@ public class libraryMode : MonoBehaviour
     public void ChangeTheImage(string name, Image image)
     {
         Texture2D imageTexture = Resources.Load<Texture2D>(name);
-
+        image.color = new Vector4(0f, 0f, 0f, 0f);
         if (imageTexture != null)
         {
             Sprite sprite = Sprite.Create(imageTexture, new Rect(0, 0, imageTexture.width, imageTexture.height), Vector2.one * 0.5f);

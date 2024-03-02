@@ -260,7 +260,14 @@ public class buildingMode : MonoBehaviour
     public void roomPanelOn(int floor)
     {
         roomBuildingName.text = currentBuildingName + "大樓";
-        roomFloor.text = floor + "樓  詳細資訊";
+        if(floor == 0)
+        {
+            roomFloor.text = "地下室 詳細資訊";
+        }
+        else
+        {
+            roomFloor.text = floor + "樓  詳細資訊";
+        }
         roomCurrentPage = 1;
         roomTotalPage = (int)(Math.Ceiling((double)(roomList.Count) / roomBtns.Length));
         roomButtonSetting(roomCurrentPage);

@@ -12,6 +12,7 @@ public class facilityMode : MonoBehaviour
     [SerializeField] Image image;
     [SerializeField] Button cancelButton;
     [SerializeField] GameObject facilityPanel;
+    [SerializeField] Button linkButton;
     
     string serverURL = "http://140.136.155.122/Unity/getFacilityData.php";
     
@@ -56,6 +57,7 @@ public class facilityMode : MonoBehaviour
         description.text = data.FACILITYDESCRIPTION;
         string imageName = data.FACILITYTYPE + data.FACILITYID;
         description.gameObject.SetActive(true);
+        linkButton.gameObject.SetActive(false);
         ChangeTheImage(imageName, image);
         cancelButton.onClick.RemoveAllListeners();
         cancelButton.onClick.AddListener(() => closePanel());
@@ -65,7 +67,7 @@ public class facilityMode : MonoBehaviour
     public void ChangeTheImage(string name, Image image)
     {
         Texture2D imageTexture = Resources.Load<Texture2D>(name);
-
+        image.color = new Vector4(0f, 0f, 0f, 0f);
         if (imageTexture != null)
         {
             Sprite sprite = Sprite.Create(imageTexture, new Rect(0, 0, imageTexture.width, imageTexture.height), Vector2.one * 0.5f);

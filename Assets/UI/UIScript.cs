@@ -8,15 +8,25 @@ using UnityEngine.UI;
 public class UIScript : MonoBehaviour
 {
     public Dropdown mode;
+    GameObject[] buildings;
     [SerializeField] GameObject LM;
     [SerializeField] GameObject SL;
     [SerializeField] GameObject SF;
     [SerializeField] GameObject MD;
     [SerializeField] GameObject basketballCourt01;
-    [SerializeField] GameObject JS;
     [SerializeField] GameObject LA_LB_LC_AV_FL_FG;
-    GameObject[] buildings;
+    GameObject[] dormitories;
+    public GameObject dormitory1;//宜真宜善
+    public GameObject dormitory2;//宜美
+    public GameObject dormitory3;//宜聖
+    public GameObject dormitory4;//立言
+    public GameObject dormitory5;//文德文舍
+    public GameObject dormitory6;//仁愛
+    public GameObject dormitory7;//信義和平
+    public GameObject dormitory8;//格物
+    public GameObject dormitory9;//學人旅店
     GameObject[] libraries;
+    [SerializeField] GameObject JS;
     GameObject[] facilities;
     string currentFacility;
     public GameObject facilityBtnList;
@@ -25,6 +35,7 @@ public class UIScript : MonoBehaviour
     public UIScript UIscript;
     public libraryMode libraryMode;
     public buildingMode buildingMode;
+    public dormitoryMode dormitoryMode;
     public Camera mainCamera;
     int previousMode;
 
@@ -44,6 +55,10 @@ public class UIScript : MonoBehaviour
             case 2:
                 break;
             case 3:
+                Debug.Log(mode.value);
+                deleteTouchScript(previousMode);
+                addTouchScript(mode.value);
+                previousMode = mode.value;
                 break;
             case 4:
                 Debug.Log(mode.value);
@@ -70,6 +85,7 @@ public class UIScript : MonoBehaviour
     {
         buildings = new GameObject[] { LM, SL, SF, MD, LA_LB_LC_AV_FL_FG };
         libraries = new GameObject[] { JS };
+        dormitories = new GameObject[] { dormitory1, dormitory2, dormitory3, dormitory4, dormitory5, dormitory6, dormitory7, dormitory8, dormitory9 };
     }
     void Start()
     {
@@ -85,6 +101,15 @@ public class UIScript : MonoBehaviour
                 foreach(GameObject obj in buildings)
                 {
                     if (obj.GetComponent<touchScript>() != null)
+                    {
+                        Destroy(obj.GetComponent<touchScript>());
+                    }
+                }
+                break;
+            case 3:
+                foreach(GameObject obj in dormitories)
+                {
+                    if(obj.GetComponent<touchScript>() != null)
                     {
                         Destroy(obj.GetComponent<touchScript>());
                     }
@@ -121,6 +146,15 @@ public class UIScript : MonoBehaviour
                     instanceBuilding.mode = mode;
                     instanceBuilding.buildingMode = buildingMode;
                     instanceBuilding.UIScript = UIscript;
+                }
+                break;
+            case 3:
+                foreach(GameObject obj in libraries)
+                {
+                    touchScript dormitoryInstance = obj.AddComponent<touchScript>();
+                    dormitoryInstance.mode = mode;
+                    dormitoryInstance.dormitoryMode = dormitoryMode;
+                    dormitoryInstance.UIScript = UIscript;
                 }
                 break;
             case 4:
