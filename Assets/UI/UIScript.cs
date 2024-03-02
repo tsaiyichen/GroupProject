@@ -14,6 +14,7 @@ public class UIScript : MonoBehaviour
     [SerializeField] GameObject MD;
     [SerializeField] GameObject basketballCourt01;
     [SerializeField] GameObject JS;
+    [SerializeField] GameObject LA_LB_LC_AV_FL_FG;
     GameObject[] buildings;
     GameObject[] libraries;
     GameObject[] facilities;
@@ -67,7 +68,7 @@ public class UIScript : MonoBehaviour
 
     private void Awake()
     {
-        buildings = new GameObject[] { LM, SL, SF, MD };
+        buildings = new GameObject[] { LM, SL, SF, MD, LA_LB_LC_AV_FL_FG };
         libraries = new GameObject[] { JS };
     }
     void Start()

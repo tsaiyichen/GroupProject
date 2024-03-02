@@ -64,6 +64,7 @@ public class buildingMode : MonoBehaviour
         buildingFloor.Add("SL", 3);
         buildingFloor.Add("SF", 8);
         buildingFloor.Add("MD", 11);
+        buildingFloor.Add("LA/LB/LC/AV/FL/FG", 10);
     }
     public void Awake()
     {
@@ -159,11 +160,11 @@ public class buildingMode : MonoBehaviour
                 floorBtns[i % floorBtns.Length].gameObject.SetActive(false);
             }
             else
-            {                
-                ChangeButtonText(floorBtns[i % floorBtns.Length], (i+1) + "¼Ó");
+            {
+                int current = i + 1;
+                ChangeButtonText(floorBtns[i % floorBtns.Length], current + "¼Ó");
                 floorBtns[i % floorBtns.Length].onClick.RemoveAllListeners();
                 Debug.Log(i + 1);
-                int current = i + 1;
                 floorBtns[i % floorBtns.Length].onClick.AddListener(() => StartCoroutine(getRoomData(current, currentBuilding)));
                 floorBtns[i % floorBtns.Length].gameObject.SetActive(true);
             }
