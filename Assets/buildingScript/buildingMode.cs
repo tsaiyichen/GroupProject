@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,6 +12,7 @@ public class buildingMode : MonoBehaviour
 {
     public UIScript UIScript;
     Dictionary<string, int> buildingFloor = new Dictionary<string, int>();
+    string [] hasB1;
     [SerializeField] GameObject introPanel;
     [SerializeField] Text introBuildingName;
     [SerializeField] Image buildingImage;
@@ -60,7 +62,7 @@ public class buildingMode : MonoBehaviour
 
     void initializeDictionary()
     {
-        buildingFloor.Add("LM", 5);
+        buildingFloor.Add("LM", 6);
         buildingFloor.Add("SL", 3);
         buildingFloor.Add("SF", 8);
         buildingFloor.Add("MD", 11);
@@ -70,6 +72,7 @@ public class buildingMode : MonoBehaviour
     {
         UIScript = GetComponent<UIScript>();
         initializeDictionary();
+        hasB1 = new string[] { "LM", "ES" };
         floorBtns = new Button[] { floor0, floor1, floor2, floor3, floor4 };
         roomBtns = new Button[] { room0, room1, room2, room3, room4 };
     }
@@ -138,9 +141,9 @@ public class buildingMode : MonoBehaviour
         Debug.Log(floorTotalpage + " " + floorCurrentPage);
         floorCancelBtn.onClick.RemoveAllListeners();
         floorCancelBtn.onClick.AddListener(() => closePanel());
-        floorButtonSetting(floorCurrentPage);
+        floorButtonSetting(floorCurrentPage, data.BUILDINGID);
     }
-    void floorButtonSetting(int currentPage)
+    void floorButtonSetting(int currentPage, string buildingID)
     {
         previousBtn_floor.gameObject.SetActive(true);
         nextBtn_floor.gameObject.SetActive(true);
@@ -162,22 +165,35 @@ public class buildingMode : MonoBehaviour
             else
             {
                 int current = i + 1;
-                ChangeButtonText(floorBtns[i % floorBtns.Length], current + "¼Ó");
+                if(hasB1.Contains(buildingID))
+                {
+                    current = i;
+                }
+
+                Debug.Log("current: " + current);
+
+                if (current == 0)
+                {
+                    ChangeButtonText(floorBtns[i % floorBtns.Length], "¦a¤U«Ç");
+                }
+                else
+                {
+                    ChangeButtonText(floorBtns[i % floorBtns.Length], current + "¼Ó");
+                }
                 floorBtns[i % floorBtns.Length].onClick.RemoveAllListeners();
-                Debug.Log(i + 1);
                 floorBtns[i % floorBtns.Length].onClick.AddListener(() => StartCoroutine(getRoomData(current, currentBuilding)));
                 floorBtns[i % floorBtns.Length].gameObject.SetActive(true);
             }
             previousBtn_floor.onClick.RemoveAllListeners();
             nextBtn_floor.onClick.RemoveAllListeners();
-            previousBtn_floor.onClick.AddListener(() => floorButtonSetting(currentPage - 1));
-            nextBtn_floor.onClick.AddListener(() => floorButtonSetting(currentPage + 1));
+            previousBtn_floor.onClick.AddListener(() => floorButtonSetting(currentPage - 1, buildingID));
+            nextBtn_floor.onClick.AddListener(() => floorButtonSetting(currentPage + 1, buildingID));
         }
     }
     public void ChangeTheImage(string name, Image image)
     {
         Texture2D imageTexture = Resources.Load<Texture2D>(name);
-
+        image.color = new Vector4(0f, 0f, 0f, 0f);
         if (imageTexture != null)
         {
             Sprite sprite = Sprite.Create(imageTexture, new Rect(0, 0, imageTexture.width, imageTexture.height), Vector2.one * 0.5f);
