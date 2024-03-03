@@ -7,12 +7,18 @@ using UnityEngine.UI;
 
 public class UIScript : MonoBehaviour
 {
+    Dictionary<string, GameObject[]> facilityDic = new Dictionary<string, GameObject[]>();
     public Dropdown mode;
     GameObject[] buildings;
+    GameObject[] labels;
     [SerializeField] GameObject LM;
+    [SerializeField] GameObject labelLM;
     [SerializeField] GameObject SL;
+    [SerializeField] GameObject labelSL;
     [SerializeField] GameObject SF;
+    [SerializeField] GameObject labelSF;
     [SerializeField] GameObject MD;
+    [SerializeField] GameObject labelMD;
     [SerializeField] GameObject basketballCourt01;
     [SerializeField] GameObject LA_LB_LC_AV_FL_FG;
     GameObject[] restaurants;
@@ -34,7 +40,34 @@ public class UIScript : MonoBehaviour
     GameObject[] facilities;
     string currentFacility;
     public GameObject facilityBtnList;
-    public GameObject facilityButtonList;
+    [SerializeField] GameObject  printMachine1;
+    [SerializeField] GameObject printMachine2;
+    [SerializeField] GameObject store1;
+    [SerializeField] GameObject store2;
+    [SerializeField] GameObject store3;
+    [SerializeField] GameObject bookstore1;
+    [SerializeField] GameObject door1;
+    [SerializeField] GameObject door2;
+    [SerializeField] GameObject door3;
+    [SerializeField] GameObject door4;
+    [SerializeField] GameObject door5;
+    [SerializeField] GameObject door6;
+    [SerializeField] GameObject parking1;
+    [SerializeField] GameObject parking2;
+    [SerializeField] GameObject parking3;
+    [SerializeField] GameObject parking4;
+    [SerializeField] GameObject gym1;
+    [SerializeField] GameObject bathroom1;
+    [SerializeField] GameObject bathroom2;
+    [SerializeField] GameObject bathroom3;
+    [SerializeField] GameObject bathroom4;
+    [SerializeField] GameObject bathroom5;
+    [SerializeField] GameObject bathroom6;
+    [SerializeField] GameObject bathroom7;
+    [SerializeField] GameObject bathroom8;
+
+
+
     public facilityMode facilityMode;
     public UIScript UIscript;
     public libraryMode libraryMode;
@@ -49,6 +82,11 @@ public class UIScript : MonoBehaviour
         switch (mode.value)
         {
             case 0:
+                Debug.Log(mode.value);
+                mainCamera.orthographicSize = 9;
+                deleteTouchScript(previousMode);
+                addTouchScript(mode.value);
+                previousMode = mode.value;
                 break;
             case 1:
                 Debug.Log(mode.value);
@@ -83,10 +121,7 @@ public class UIScript : MonoBehaviour
                 Debug.Log(mode.value);
                 deleteTouchScript(previousMode);
                 addTouchScript(mode.value);
-                touchScript instanceTouch = basketballCourt01.AddComponent<touchScript>();
-                instanceTouch.mode = mode;
-                instanceTouch.facilityMode = facilityMode;
-                instanceTouch.UIScript = UIscript;
+                facilityBtnList.SetActive(true);
                 previousMode = mode.value;
                 break;
             case 6:
@@ -100,17 +135,55 @@ public class UIScript : MonoBehaviour
         libraries = new GameObject[] { JS };
         dormitories = new GameObject[] { dormitory1, dormitory2, dormitory3, dormitory4, dormitory5, dormitory6, dormitory7, dormitory8};
         restaurants = new GameObject[] { FY, SY, LY, CY };
+        labels = new GameObject[] { labelSF, labelLM, labelMD, labelSL };
+        InitialDic();
+    }
+    void InitialDic()
+    {
+        facilityDic.Add("printMachine", new GameObject[] {printMachine1, printMachine2});
+        facilityDic.Add("store", new GameObject[] { store1, store2, store3});
+        facilityDic.Add("bookStore", new GameObject[] { bookstore1});
+        facilityDic.Add("door", new GameObject[] {door1, door2, door3, door4, door5, door6});
+        facilityDic.Add("parking", new GameObject[] { parking1, parking2, parking3, parking4} );
+        facilityDic.Add("gym", new GameObject[] { gym1 });
+        facilityDic.Add("bathroom", new GameObject[] { bathroom1, bathroom2, bathroom3, bathroom4, bathroom5, bathroom6, bathroom7, bathroom8});
+        facilityDic.Add("swim");
+        facilityDic.Add("wheelChair");
+        facilityDic.Add("waterMachine");
+        facilityDic.Add("drinkMachine");
+        facilityDic.Add("sportCourt");
+        facilityDic.Add("elevator");
+        facilityDic.Add("printShop");
+        facilityDic.Add("hospital");
     }
     void Start()
     {
         mode.value = 0;
         previousMode = 0;
     }
-
+    public void facilityTypeChoose(string type)
+    {
+        foreach(GameObject obj in facilities)
+        {
+            obj.SetActive(false);
+        }
+        currentFacility = type;
+        GameObject[] choosed = facilityDic[type];
+        foreach(GameObject obj in choosed)
+        {
+            obj.SetActive(true);
+        }
+    }
     public void deleteTouchScript(int index)
     {
         switch (index)
         {
+            case 0:
+                foreach(GameObject obj in labels)
+                {
+                    obj.SetActive(false);
+                }
+                break;
             case 1:
                 foreach(GameObject obj in buildings)
                 {
@@ -148,6 +221,7 @@ public class UIScript : MonoBehaviour
                 }
                 break;
             case 5:
+                facilityBtnList.SetActive(false);
                 foreach (GameObject obj in facilities)
                 {
                     if (obj.GetComponent<touchScript>() != null)
@@ -156,12 +230,20 @@ public class UIScript : MonoBehaviour
                     }
                 }
                 break;
+            case 6:
+                break;
         }
     }
     public void addTouchScript(int index)
     {
         switch (index)
         {
+            case 0:
+                foreach (GameObject obj in labels)
+                {
+                    obj.SetActive(true);
+                }
+                break;
             case 1:
                 foreach (GameObject obj in buildings)
                 {
@@ -206,6 +288,8 @@ public class UIScript : MonoBehaviour
                     instanceTouch.facilityMode = facilityMode;
                     instanceTouch.UIScript = UIscript;
                 }
+                break;
+            case 6:
                 break;
         }
     }

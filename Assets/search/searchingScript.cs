@@ -16,7 +16,6 @@ public class searchingScript : MonoBehaviour
     [SerializeField] Button result2;
     [SerializeField] Button result3;
     [SerializeField] Button result4;
-    [SerializeField] Button result5;
     [SerializeField] Dropdown tableDropdown;
     [SerializeField] Text noResultText;
     Button[] resultArray;
@@ -46,7 +45,7 @@ public class searchingScript : MonoBehaviour
 
     private void Awake()
     {
-        resultArray = new Button[] { result0, result1, result2, result3, result4, result5};
+        resultArray = new Button[] { result0, result1, result2, result3, result4};
         n = resultArray.Length;
         UIScript = GetComponent<UIScript>();
     }
@@ -79,37 +78,37 @@ public class searchingScript : MonoBehaviour
     {
         switch (index)
         {
-            case 0:
+            case 1:
                 noResultText.gameObject.SetActive(false);
                 totalPage = (int)(Math.Ceiling((double)(buildingList.Count) / n));
                 currentPage = 1;
                 buildingPanelOn(buildingList, currentPage);
                 break;
-            case 1:
+            case 6:
                 noResultText.gameObject.SetActive(false);
                 totalPage = (int)(Math.Ceiling((double)(roomList.Count) / n));
                 currentPage = 1;
                 roomPanelOn(roomList, currentPage);
                 break;
-            case 2:
+            case 3:
                 noResultText.gameObject.SetActive(false);
                 totalPage = (int)(Math.Ceiling((double)(dormitoryList.Count) / n));
                 currentPage = 1;
                 dormitoryPanelOn(dormitoryList, currentPage);
                 break;
-            case 3:
+            case 2:
                 noResultText.gameObject.SetActive(false);
                 totalPage = (int)(Math.Ceiling((double)(restaurantList.Count) / n));
                 currentPage = 1;
                 restaurantPanelOn(restaurantList, currentPage);
                 break;
-            case 4:
+            case 5:
                 noResultText.gameObject.SetActive(false);
                 totalPage = (int)(Math.Ceiling((double)(facilityList.Count) / n));
                 currentPage = 1;
                 facilityPanelOn(facilityList, currentPage);
                 break;
-            case 5:
+            case 4:
                 noResultText.gameObject.SetActive(false);
                 totalPage = (int)(Math.Ceiling((double)(libraryList.Count) / n));
                 currentPage = 1;
@@ -474,6 +473,8 @@ public class searchingScript : MonoBehaviour
                 string text = data.LIBRARYNAME + "   " + data.LIBRARYDESCRIPTION;
                 Debug.Log(text);
                 ChangeButtonText(resultArray[i % n], text);
+                resultArray[i % n].onClick.RemoveAllListeners();
+                resultArray[i % n].onClick.AddListener(() => moveCameraToObj(data.LIBRARYID, 4));
             }
         }
     }
@@ -493,6 +494,7 @@ public class searchingScript : MonoBehaviour
 
     public void moveCameraToObj(string name, int mode)
     {
+        searchingPanel.SetActive(false);
         GameObject targetObject = GameObject.Find(name);
         if (targetObject != null)
         {
@@ -507,7 +509,17 @@ public class searchingScript : MonoBehaviour
     }
     public void moveCameraToObj(string name, string type, int mode)
     {
-        GameObject targetObject = GameObject.Find(name);
+        searchingPanel.SetActive(false);
+        string target = "";
+        if(name.Length == 1)
+        {
+            target = type + "0" + name;
+        }
+        else
+        {
+            target = type + name;
+        }
+        GameObject targetObject = GameObject.Find(target);
         if (targetObject != null)
         {
             mainCamera.transform.position = targetObject.transform.position;
