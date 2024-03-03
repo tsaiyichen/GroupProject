@@ -29,7 +29,6 @@ public class UIScript : MonoBehaviour
     public GameObject dormitory6;//學人旅店
     public GameObject dormitory7;//信義和平
     public GameObject dormitory8;//格物
-    public GameObject dormitory9;//仁愛
     GameObject[] libraries;
     [SerializeField] GameObject JS;
     GameObject[] facilities;
@@ -99,8 +98,8 @@ public class UIScript : MonoBehaviour
     {
         buildings = new GameObject[] { LM, SL, SF, MD, LA_LB_LC_AV_FL_FG };
         libraries = new GameObject[] { JS };
-        dormitories = new GameObject[] { dormitory1, dormitory2, dormitory3, dormitory4, dormitory5, dormitory6, dormitory7, dormitory8, dormitory9 };
-        restaurants = new GameObject[] { FY, CY, LY, CY };
+        dormitories = new GameObject[] { dormitory1, dormitory2, dormitory3, dormitory4, dormitory5, dormitory6, dormitory7, dormitory8};
+        restaurants = new GameObject[] { FY, SY, LY, CY };
     }
     void Start()
     {

@@ -127,6 +127,7 @@ public class buildingMode : MonoBehaviour
         ChangeTheImage(imageName, buildingImage);
         changeToIntro_intro.onClick.RemoveAllListeners();
         changeToFloor_intro.onClick.AddListener(() => changeToFloorPanel());
+        ChangeButtonText(changeToFloor_intro, "¼Ó¼h");
         introCancelBtn.onClick.RemoveAllListeners();
         introCancelBtn.onClick.AddListener(() => closePanel());
         introPanel.SetActive(true);
@@ -134,6 +135,7 @@ public class buildingMode : MonoBehaviour
 
     void setInitialFloorPanel(Building data)
     {
+        ChangeButtonText(changeToFloor_floor, "¼Ó¼h");
         totalFloor = buildingFloor[data.BUILDINGID];
         floorBuildingName.text = data.BUILDINGID + " " + data.BUILDINGNAME;
         floorCurrentPage = 1;

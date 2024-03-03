@@ -54,10 +54,12 @@ public class restMode : MonoBehaviour
         restaurant_building.Add("FY", "»²¶é");
         restaurant_building.Add("dormitory07", "¤ß¶é");
         restaurant_building.Add("dormitory08", "²z¶é");
-        restaurant_building.Add("dormitory03", "»²¶é");
+        restaurant_building.Add("dormitory03", "¸Û¶é");
+        restBtns = new Button[] { rest0, rest1, rest2, rest3, rest4, };
     }
     public IEnumerator getRestData(string res_building)
     {
+        restList.Clear();
         currentBuilding = restaurant_building[res_building];
         string restaurantURL = "http://140.136.155.122/Unity/getRestaurantData.php";
         WWWForm form = new WWWForm();
@@ -75,7 +77,9 @@ public class restMode : MonoBehaviour
             addDataToList(restaurantResponse, pattern, restList);
             openIntroPanel();
             restCurrentPage = 1;
+            Debug.Log(restCurrentPage);
             restTotalpage = (int)(Math.Ceiling((double)(restList.Count) / restBtns.Length));
+            Debug.Log(restTotalpage);
             restaurantPanelOn(restList, 1);
         }
     }
@@ -96,6 +100,7 @@ public class restMode : MonoBehaviour
         changeToIntro_intro.onClick.RemoveAllListeners();
         changeToRest_intro.onClick.RemoveAllListeners();
         changeToRest_intro.onClick.AddListener(() => changeToRestPanel());
+        ChangeButtonText(changeToRest_intro, "À\ÆU");
         introRes_BuildingName.text = currentBuilding;
         restCancelBtn.onClick.RemoveAllListeners();
         restCancelBtn.onClick.AddListener( () => closePanel());
@@ -104,6 +109,7 @@ public class restMode : MonoBehaviour
     }
     void restaurantPanelOn(List<string> list, int currentPage)
     {
+        ChangeButtonText(changeToRest_rest, "À\ÆU");
         restCancelBtn.onClick.RemoveAllListeners();
         restCancelBtn.onClick.AddListener(() => closePanel());
         previousBtn_rest.gameObject.SetActive(true);
@@ -152,6 +158,8 @@ public class restMode : MonoBehaviour
         linkButton.onClick.AddListener(() => openLink(data.RESTAURANTDESCRIPTION));
         descriptionCancelBtn.onClick.RemoveAllListeners();
         descriptionCancelBtn.onClick.AddListener(() => closeDescriptionPanel());
+        descriptionCancelBtn.onClick.RemoveAllListeners();
+        descriptionCancelBtn.onClick.AddListener(closeDescriptionPanel);
         descriptionPanel.SetActive(true);
     }
     public void ChangeButtonText(Button button, string newText)
