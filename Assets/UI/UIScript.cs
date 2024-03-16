@@ -147,14 +147,14 @@ public class UIScript : MonoBehaviour
         facilityDic.Add("parking", new GameObject[] { parking1, parking2, parking3, parking4} );
         facilityDic.Add("gym", new GameObject[] { gym1 });
         facilityDic.Add("bathroom", new GameObject[] { bathroom1, bathroom2, bathroom3, bathroom4, bathroom5, bathroom6, bathroom7, bathroom8});
-        facilityDic.Add("swim");
+        /*facilityDic.Add("swim");
         facilityDic.Add("wheelChair");
         facilityDic.Add("waterMachine");
         facilityDic.Add("drinkMachine");
         facilityDic.Add("sportCourt");
         facilityDic.Add("elevator");
         facilityDic.Add("printShop");
-        facilityDic.Add("hospital");
+        facilityDic.Add("hospital");*/
     }
     void Start()
     {
